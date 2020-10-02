@@ -8,6 +8,7 @@ public class Main {
 	}
 
 	public static int nearestValueOf(int value, int[][] matrix) {
+		// Base cases
 		if (matrix.length == 0 || matrix[0].length == 0) { // empty matrix
 			return Integer.MAX_VALUE;
 		} else if (matrix.length == 1 && matrix[0].length == 1) { // matrix with one element
@@ -20,25 +21,25 @@ public class Main {
 		int midRow = nrows / 2;
 		int midCol = mcols / 2;
 
+		// Divide
 		int[][] leftTopSubmatrix = submatrixOf(matrix, 0, midRow, 0, midCol);
 		int[][] leftBottomSubmatrix = submatrixOf(matrix, midRow, nrows, 0, midCol);
 
 		int[][] rightTopSubmatrix = submatrixOf(matrix, 0, midRow, midCol, mcols);
 		int[][] rightBottomSubmatrix = submatrixOf(matrix, midRow, nrows, midCol, mcols);
 
+		// Conquer
 		int ltr = nearestValueOf(value, leftTopSubmatrix);
 		int lbr = nearestValueOf(value, leftBottomSubmatrix);
 		int rtr = nearestValueOf(value, rightTopSubmatrix);
 		int rbr = nearestValueOf(value, rightBottomSubmatrix);
 
+		// Combine
 		return greatestNearestTo(value, ltr, lbr, rtr, rbr);
 	}
 
 	public static int greatestNearestTo(int value, int... numbers) {
-		if (numbers.length == 0)
-			return Integer.MAX_VALUE;
-
-		int nearest = numbers[0];
+		int nearest = Integer.MAX_VALUE;
 		int minimumDiff = Integer.MAX_VALUE;
 
 		for (int num : numbers) {
@@ -54,10 +55,9 @@ public class Main {
 
 	public static int[][] submatrixOf(int[][] matrix, int fromRow, int toRow, int fromCol, int toCol) {
 		int[][] submatrix = new int[toRow - fromRow][toCol - fromCol];
-
-		for (int ir = fromRow, i = 0; ir < toRow; ir++, i++)
-			for (int ic = fromCol, j = 0; ic < toCol; ic++, j++)
-				submatrix[i][j] = matrix[ir][ic];
+		for (int ithRow = fromRow, i = 0; ithRow < toRow; ithRow++, i++)
+			for (int jthCol = fromCol, j = 0; jthCol < toCol; jthCol++, j++)
+				submatrix[i][j] = matrix[ithRow][jthCol];
 		return submatrix;
 	}
 }
