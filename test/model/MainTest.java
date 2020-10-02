@@ -24,7 +24,7 @@ public class MainTest {
 		
 		int numTestCases = Integer.parseInt(br1.readLine());
 		boolean passedAllTests = true;
-		System.out.println("O | EX");
+		System.out.println("AC  | EX");
 		System.out.println("------");
 		for(int t = 0; t < numTestCases; t++) {
 			int[] nm = readArrayFromTextFile(br1);
@@ -34,10 +34,10 @@ public class MainTest {
 			for(int i = 0; i <matrix.length; i++)
 				matrix[i] = readArrayFromTextFile(br1);
 			
-			Main.printMatrix(matrix);
+//			Main.printMatrix(matrix);
 			int expectedOutput = Integer.parseInt(br2.readLine());
 			
-			int actualOutput = Main.greatestNearestTo(value, matrix);
+			int actualOutput = Main.nearestValueOf(value, matrix);
 			
 			System.out.println(actualOutput + " | " + expectedOutput);				
 			passedAllTests = expectedOutput == actualOutput;				

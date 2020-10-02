@@ -1,36 +1,17 @@
 package model;
 
-import java.util.Arrays;
-
 public class Main {
 
 	public static void main(String[] args) {
-		int[][] matrix = { { 32, 0, 7 }, { 4, 21, 8 }, { 29, 3, 4 }, { 5, 22, -1 } };
-//		int nrows = matrix.length;
-//		int mcols = matrix[0].length;
-//
-//		int midRow = nrows / 2;
-//		int midCol = mcols / 2;
-//
-//		int[][] leftTopMatrix = submatrixOf(matrix, 0, midRow, 0, midCol);
-//		int[][] rightTopMatrix = submatrixOf(matrix, 0, midRow, midCol, mcols);
-//		int[][] leftBottomMatrix = submatrixOf(matrix, midRow, nrows, 0, midCol);
-//		int[][] rightBottomMatrix = submatrixOf(matrix, midRow, nrows, midCol, mcols);
-//		printMatrix(leftTopMatrix);
-//		System.out.println();
-//		printMatrix(leftBottomMatrix);
-//		System.out.println();
-//		printMatrix(rightTopMatrix);
-//		System.out.println();
-//		printMatrix(rightBottomMatrix);
-		System.out.println(nearestValueOf(13, matrix));
+		int[][] matrix = { { 1, 1, 1, 1, 2 }, { 5, 3, 2, 12, 4 }, { 1, 1, 1, 1, 9 } };
+		System.out.println(nearestValueOf(7, matrix));
 	}
 
 	public static int nearestValueOf(int value, int[][] matrix) {
-		if ( matrix[0].length == 0) { // empty matrix
+		if (matrix.length == 0 || matrix[0].length == 0) { // empty matrix
 			return Integer.MAX_VALUE;
-		} else if(matrix.length == 1 && matrix[0].length == 1 ) { // matrix with one element
-			return matrix[0][0];			
+		} else if (matrix.length == 1 && matrix[0].length == 1) { // matrix with one element
+			return matrix[0][0];
 		}
 
 		int nrows = matrix.length;
@@ -40,47 +21,31 @@ public class Main {
 		int midCol = mcols / 2;
 
 		int[][] leftTopSubmatrix = submatrixOf(matrix, 0, midRow, 0, midCol);
-		int[][] rightTopSubmatrix = submatrixOf(matrix, 0, midRow, midCol, mcols);
 		int[][] leftBottomSubmatrix = submatrixOf(matrix, midRow, nrows, 0, midCol);
+
+		int[][] rightTopSubmatrix = submatrixOf(matrix, 0, midRow, midCol, mcols);
 		int[][] rightBottomSubmatrix = submatrixOf(matrix, midRow, nrows, midCol, mcols);
 
 		int ltr = nearestValueOf(value, leftTopSubmatrix);
-		int rtr = nearestValueOf(value, rightTopSubmatrix);
 		int lbr = nearestValueOf(value, leftBottomSubmatrix);
+		int rtr = nearestValueOf(value, rightTopSubmatrix);
 		int rbr = nearestValueOf(value, rightBottomSubmatrix);
-		
-		System.out.println("ltr: " + ltr);
-		System.out.println("rtr: " + rtr);
-		System.out.println("lbr: " + lbr);
-		System.out.println("rbr: " + rbr);
-		
-		int leftTop = greatestNearestTo(value, leftTopSubmatrix);
-		int rightTop = greatestNearestTo(value, rightTopSubmatrix);
-		int leftBottom = greatestNearestTo(value, leftBottomSubmatrix);
-		int rightBottom = greatestNearestTo(value, rightBottomSubmatrix);
-		
-		System.out.println("Left top: " + leftTop);
-		System.out.println("Left bottom: " + leftBottom);
-		System.out.println("Right top: " + rightTop);
-		System.out.println("Right bottom: " + rightBottom);
-		
-		return 0;
+
+		return greatestNearestTo(value, ltr, lbr, rtr, rbr);
 	}
 
-	public static int greatestNearestTo(int value, int[][] matrix) {
-		if ( matrix[0].length == 0) // empty matrix
+	public static int greatestNearestTo(int value, int... numbers) {
+		if (numbers.length == 0)
 			return Integer.MAX_VALUE;
-		
-		int nearest = matrix[0][0];
+
+		int nearest = numbers[0];
 		int minimumDiff = Integer.MAX_VALUE;
-		
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				int diff = Math.abs(matrix[i][j] - value);
-				if ( diff < minimumDiff || (diff == minimumDiff && matrix[i][j] > nearest) ) {
-					nearest = matrix[i][j];
-					minimumDiff = diff;					
-				}
+
+		for (int num : numbers) {
+			int diff = Math.abs(num - value);
+			if (diff < minimumDiff || (diff == minimumDiff && num > nearest)) {
+				nearest = num;
+				minimumDiff = diff;
 			}
 		}
 
@@ -94,10 +59,5 @@ public class Main {
 			for (int ic = fromCol, j = 0; ic < toCol; ic++, j++)
 				submatrix[i][j] = matrix[ir][ic];
 		return submatrix;
-	}
-
-	public static void printMatrix(int[][] matrix) {
-		for (int[] r : matrix)
-			System.out.println(Arrays.toString(r));
 	}
 }
