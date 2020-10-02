@@ -4,10 +4,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		int[][] matrix = { { 1, 1, 1, 1, 2 }, { 5, 3, 2, 12, 4 }, { 1, 1, 1, 1, 9 } };
-		System.out.println(nearestValueOf(7, matrix));
+		System.out.println(solve(7, matrix));
 	}
 
-	public static int nearestValueOf(int value, int[][] matrix) {
+	public static int solve(int value, int[][] matrix) {
 		// Base cases
 		if (matrix.length == 0 || matrix[0].length == 0) // empty matrix
 			return Integer.MAX_VALUE;
@@ -28,13 +28,13 @@ public class Main {
 		int[][] rightBottomSubmatrix = submatrixOf(matrix, midRow, nrows, midCol, mcols);
 
 		// Conquer
-		int ltr = nearestValueOf(value, leftTopSubmatrix);
-		int lbr = nearestValueOf(value, leftBottomSubmatrix);
-		int rtr = nearestValueOf(value, rightTopSubmatrix);
-		int rbr = nearestValueOf(value, rightBottomSubmatrix);
+		int leftTopResult = solve(value, leftTopSubmatrix);
+		int leftBottomResult = solve(value, leftBottomSubmatrix);
+		int rightTopResult = solve(value, rightTopSubmatrix);
+		int rightBottomResult = solve(value, rightBottomSubmatrix);
 
 		// Combine
-		return greatestNearestTo(value, ltr, lbr, rtr, rbr);
+		return greatestNearestTo(value, leftTopResult, leftBottomResult, rightTopResult, rightBottomResult);
 	}
 
 	public static int greatestNearestTo(int value, int... numbers) {

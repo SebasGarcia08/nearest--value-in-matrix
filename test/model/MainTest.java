@@ -35,7 +35,7 @@ public class MainTest {
 					matrix[i] = readArrayFromTextFile(br1);
 
 				int expectedOutput = Integer.parseInt(br2.readLine());
-				int actualOutput = Main.nearestValueOf(value, matrix);
+				int actualOutput = Main.solve(value, matrix);
 
 				System.out.println(actualOutput + "\t|\t" + expectedOutput);
 
