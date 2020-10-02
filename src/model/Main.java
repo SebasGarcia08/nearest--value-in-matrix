@@ -9,11 +9,10 @@ public class Main {
 
 	public static int nearestValueOf(int value, int[][] matrix) {
 		// Base cases
-		if (matrix.length == 0 || matrix[0].length == 0) { // empty matrix
+		if (matrix.length == 0 || matrix[0].length == 0) // empty matrix
 			return Integer.MAX_VALUE;
-		} else if (matrix.length == 1 && matrix[0].length == 1) { // matrix with one element
+		else if (matrix.length == 1 && matrix[0].length == 1) // matrix with one element
 			return matrix[0][0];
-		}
 
 		int nrows = matrix.length;
 		int mcols = matrix[0].length;
